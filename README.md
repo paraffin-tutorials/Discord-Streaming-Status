@@ -26,8 +26,3 @@
 <br><br>
 **🔴قسمت url ست کنید `commands.json` فراموش نکنید که ۀینک مورد نظر خودتون رو داخل🔴**
 <br><br>
-**با تشکر از**
-<br><br>
-![DM me Discord](https://discord.c99.nl/widget/theme-1/488958506280550402.png)
-![DM me Discord](https://discord.c99.nl/widget/theme-1/490519932292038659.png)
-
