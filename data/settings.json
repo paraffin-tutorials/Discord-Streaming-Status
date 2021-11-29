@@ -1,0 +1,8 @@
+{
+    "token":"TOKEN",
+    "client":"YOURID",
+    "tag":"s!",
+    "case":"false",
+    "separator":"\\s+",
+    "ownerId":"YOURID"
+}

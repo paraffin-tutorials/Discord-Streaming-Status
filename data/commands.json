@@ -1,0 +1,23 @@
+[
+    null,
+    {
+    "name":"Stream",
+    "permissions":"NONE",
+    "restriction":"4",
+    "_id":"cnuUl",
+    "actions":[
+        {
+            "info":"1",
+            "infoIndex":"1",
+            "storage":"1",
+            "varName":"info",
+            "name":"Store Command Params"},
+            {
+                "activity":"3",
+                "nameText":"${tempVars(\"info\")}",
+                "url":"https://www.youtube.com/watch?v=VfALzuE7oz8&t",
+                "name":"Set Bot Activity"
+            }
+               ]
+        }
+]
