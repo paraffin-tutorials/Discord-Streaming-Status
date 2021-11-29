@@ -16,30 +16,38 @@ Bot.$evts = {}; // Events
 
 Bot.bot = null;
 
-Bot.init = function() {
+Bot.init = function()
+{
 	this.initBot();
 	this.reformatData();
 	this.initEvents();
 	this.login();
 };
 
-Bot.initBot = function() {
+Bot.initBot = function()
+{
 	this.bot = new DiscordJS.Client();
 };
 
-Bot.reformatData = function() {
+Bot.reformatData = function()
+{
 	this.reformatCommands();
 	this.reformatEvents();
 };
 
-Bot.reformatCommands = function() {
+Bot.reformatCommands = function()
+{
 	const data = Files.data.commands;
 	if(!data) return;
+
 	this._caseSensitive = Boolean(Files.data.settings.case === 'true');
-	for(let i = 0; i < data.length; i++) {
+	for(let i = 0; i < data.length; i++)
+	{
 		const com = data[i];
-		if(com) {
-			switch(com.comType) {
+		if(com)
+		{
+			switch(com.comType)
+			{
 				case '1':
 					this.$icds.push(com);
 					break;
@@ -50,11 +58,14 @@ Bot.reformatCommands = function() {
 					this.$anym.push(com);
 					break;
 				default:
-					if(this._caseSensitive) {
+					if(this._caseSensitive)
+					{
 						this.$cmds[com.name] = com;
-						if(com._aliases) {
+						if(com._aliases)
+						{
 							const aliases = com._aliases;
-							for(let j = 0; j < aliases.length; j++) {
+							for(let j = 0; j < aliases.length; j++)
+							{
 								this.$cmds[aliases[j]] = com;
 							}
 						}
@@ -960,17 +971,22 @@ Events.onInitialization = function(bot) {
 	}
 };
 
-Events.setupIntervals = function(bot) {
+Events.setupIntervals = function(bot)
+{
 	const events = $evts["3"];
-	for(let i = 0; i < events.length; i++) {
+	for(let i = 0; i < events.length; i++)
+	{
 		const event = events[i];
 		const temp = {};
 		const time = event.temp ? parseFloat(event.temp) : 60;
-		bot.setInterval(function() {
+		bot.setInterval(function()
+		{
 			const servers = bot.guilds.array();
-			for(let i = 0; i < servers.length; i++) {
+			for(let i = 0; i < servers.length; i++)
+			{
 				const server = servers[i];
-				if(server) {
+				if(server)
+				{
 					Actions.invokeEvent(event, server, temp);
 				}
 			}
@@ -978,7 +994,8 @@ Events.setupIntervals = function(bot) {
 	}
 };
 
-Events.onReaction = function(id, reaction, user) {
+Events.onReaction = function(id, reaction, user)
+{
 	const events = $evts[id];
 	if(!events) return;
 	if(!reaction.message || !reaction.message.guild) return;
@@ -1528,20 +1545,24 @@ GuildMember.prototype.setData = function(name, value) {
 	Files.saveData('players');
 };
 
-GuildMember.prototype.addData = function(name, value) {
+GuildMember.prototype.addData = function(name, value)
+{
 	const id = this.id;
 	const data = Files.data.players;
-	if(data[id] === undefined) {
+	if(data[id] === undefined)
+	{
 		data[id] = {};
 	}
-	if(data[id][name] === undefined) {
+	if(data[id][name] === undefined)
+	{
 		this.setData(name, value);
 	} else {
 		this.setData(name, this.data(name) + value);
 	}
 };
 
-GuildMember.prototype.convertToString = function() {
+GuildMember.prototype.convertToString = function()
+{
 	return `mem-${this.id}_s-${this.guild.id}`;
 };
 
@@ -1555,7 +1576,8 @@ User.prototype.data = GuildMember.prototype.data;
 User.prototype.setData = GuildMember.prototype.setData;
 User.prototype.addData = GuildMember.prototype.addData;
 
-User.prototype.convertToString = function() {
+User.prototype.convertToString = function()
+{
 	return `usr-${this.id}`;
 };
 
@@ -1565,14 +1587,20 @@ User.prototype.convertToString = function() {
 
 const Guild = DiscordJS.Guild;
 
-Guild.prototype.getDefaultChannel = function() {
+Guild.prototype.getDefaultChannel = function()
+{
 	let channel = this.channels.get(this.id);
 	if(!channel) {
-		this.channels.array().forEach(function(c) {
-			if(c.type !== 'voice') {
-				if(!channel) {
+		this.channels.array().forEach(function(c)
+		{
+			if(c.type !== 'voice')
+			{
+				if(!channel)
+				{
 					channel = c;
-				} else if(channel.position > c.position) {
+				}
+				else if(channel.position > c.position)
+				{
 					channel = c;
 				}
 			}
@@ -1581,46 +1609,58 @@ Guild.prototype.getDefaultChannel = function() {
 	return channel;
 };
 
-Guild.prototype.data = function(name, defaultValue) {
+Guild.prototype.data = function(name, defaultValue)
+{
 	const id = this.id;
 	const data = Files.data.servers;
-	if(data[id] === undefined) {
-		if(defaultValue === undefined) {
+	if(data[id] === undefined)
+	{
+		if(defaultValue === undefined)
+		{
 			return null;
 		} else {
 			data[id] = {};
 		}
 	}
-	if(data[id][name] === undefined && defaultValue !== undefined) {
+	if(data[id][name] === undefined && defaultValue !== undefined)
+	{
 		data[id][name] = defaultValue;
 	}
 	return data[id][name];
 };
 
-Guild.prototype.setData = function(name, value) {
+Guild.prototype.setData = function(name, value)
+{
 	const id = this.id;
 	const data = Files.data.servers;
-	if(data[id] === undefined) {
+	if(data[id] === undefined)
+	{
 		data[id] = {};
 	}
 	data[id][name] = value;
 	Files.saveData('servers');
 };
 
-Guild.prototype.addData = function(name, value) {
+Guild.prototype.addData = function(name, value)
+{
 	const id = this.id;
 	const data = Files.data.servers;
-	if(data[id] === undefined) {
+	if(data[id] === undefined)
+	{
 		data[id] = {};
 	}
-	if(data[id][name] === undefined) {
+	if(data[id][name] === undefined)
+	{
 		this.setData(name, value);
-	} else {
+	}
+	else
+	{
 		this.setData(name, this.data(name) + value);
 	}
 };
 
-Guild.prototype.convertToString = function() {
+Guild.prototype.convertToString = function()
+{
 	return `s-${this.id}`;
 };
 
@@ -1628,7 +1668,8 @@ Guild.prototype.convertToString = function() {
 // Message
 //---------------------------------------------------------------------
 
-DiscordJS.Message.prototype.convertToString = function() {
+DiscordJS.Message.prototype.convertToString = function()
+{
 	return `msg-${this.id}_c-${this.channel.id}`;
 };
 
@@ -1636,7 +1677,8 @@ DiscordJS.Message.prototype.convertToString = function() {
 // TextChannel
 //---------------------------------------------------------------------
 
-DiscordJS.TextChannel.prototype.convertToString = function() {
+DiscordJS.TextChannel.prototype.convertToString = function()
+{
 	return `tc-${this.id}`;
 };
 
@@ -1644,7 +1686,8 @@ DiscordJS.TextChannel.prototype.convertToString = function() {
 // VoiceChannel
 //---------------------------------------------------------------------
 
-DiscordJS.VoiceChannel.prototype.convertToString = function() {
+DiscordJS.VoiceChannel.prototype.convertToString = function()
+{
 	return `vc-${this.id}`;
 };
 
@@ -1652,7 +1695,8 @@ DiscordJS.VoiceChannel.prototype.convertToString = function() {
 // Role
 //---------------------------------------------------------------------
 
-DiscordJS.Role.prototype.convertToString = function() {
+DiscordJS.Role.prototype.convertToString = function()
+{
 	return `r-${this.id}_s-${this.guild.id}`;
 };
 
@@ -1660,7 +1704,8 @@ DiscordJS.Role.prototype.convertToString = function() {
 // Emoji
 //---------------------------------------------------------------------
 
-DiscordJS.Emoji.prototype.convertToString = function() {
+DiscordJS.Emoji.prototype.convertToString = function()
+{
 	return `e-${this.id}`;
 };
 
